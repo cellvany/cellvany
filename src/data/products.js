@@ -1,0 +1,98 @@
+export const MOCK_PRODUCTS = [
+  {
+    id: '1',
+    name: 'Serum Vitamin C Thuần Chay',
+    category: 'Serum',
+    price: '680.000đ',
+    priceNum: 680000,
+    desc: 'Làm sáng da và giảm thâm nám với 15% Vitamin C ổn định từ chiết xuất cam bergamot.',
+    tags: ['Làm sáng', 'Chống oxy hoá', 'Mọi loại da'],
+    ingredients: 'Ascorbyl Glucoside, Niacinamide, Hyaluronic Acid, Aloe Vera',
+    emoji: '🍊',
+    image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&h=400&fit=crop'
+  },
+  {
+    id: '2',
+    name: 'Kem Dưỡng Ẩm Hoa Hồng Tầm Xuân',
+    category: 'Kem dưỡng',
+    price: '550.000đ',
+    priceNum: 550000,
+    desc: 'Nuôi dưỡng và làm mềm da suốt 24 giờ với tinh dầu hoa hồng tầm xuân.',
+    tags: ['Dưỡng ẩm', 'Da nhạy cảm', 'Chống lão hoá'],
+    ingredients: 'Rosa Canina Oil, Shea Butter, Jojoba Oil, Ceramide (plant-derived), Vitamin E',
+    emoji: '🌹',
+    image: 'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=400&h=400&fit=crop'
+  },
+  {
+    id: '3',
+    name: 'Sữa Rửa Mặt Rau Má',
+    category: 'Làm sạch',
+    price: '320.000đ',
+    priceNum: 320000,
+    desc: 'Làm sạch nhẹ nhàng và làm dịu da với chiết xuất rau má Việt Nam.',
+    tags: ['Làm sạch', 'Làm dịu', 'Không sulfate'],
+    ingredients: 'Centella Asiatica Extract, Glycerin, Panthenol, Aloe Vera',
+    emoji: '🌿',
+    image: 'https://images.unsplash.com/photo-1556228720-192735780279?w=400&h=400&fit=crop'
+  },
+  {
+    id: '4',
+    name: 'Toner Cân Bằng Trà Xanh',
+    category: 'Toner',
+    price: '290.000đ',
+    priceNum: 290000,
+    desc: 'Cân bằng pH và thu nhỏ lỗ chân lông với nước chiết xuất trà xanh.',
+    tags: ['Cân bằng pH', 'Kiểm soát dầu', 'Chống oxy hoá'],
+    ingredients: 'Green Tea Water, Niacinamide, Witch Hazel, Panthenol, Hyaluronic Acid',
+    emoji: '🍵',
+    image: 'https://images.unsplash.com/photo-1570194065650-d99fb4b38a38?w=400&h=400&fit=crop'
+  },
+  {
+    id: '5',
+    name: 'Mặt Nạ Đất Sét Nghệ',
+    category: 'Mặt nạ',
+    price: '420.000đ',
+    priceNum: 420000,
+    desc: 'Làm sạch sâu lỗ chân lông và làm sáng da với đất sét kaolin và tinh bột nghệ.',
+    tags: ['Làm sạch sâu', 'Làm sáng', 'Da dầu mụn'],
+    ingredients: 'Kaolin Clay, Turmeric Extract, Bentonite, Rose Hip Oil, Vitamin C',
+    emoji: '✨',
+    image: 'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=400&h=400&fit=crop'
+  },
+  {
+    id: '6',
+    name: 'Tinh Chất Phục Hồi Aloe Vera',
+    category: 'Serum',
+    price: '480.000đ',
+    priceNum: 480000,
+    desc: 'Phục hồi và làm dịu da tức thì với 95% nha đam hữu cơ nguyên chất.',
+    tags: ['Phục hồi', 'Làm dịu', 'Sau nắng'],
+    ingredients: 'Aloe Barbadensis Leaf Juice (95%), Centella Asiatica, Allantoin, Panthenol',
+    emoji: '🌵',
+    image: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&h=400&fit=crop'
+  },
+  {
+    id: '7',
+    name: 'Kem Chống Nắng Zinc Oxide SPF50',
+    category: 'Chống nắng',
+    price: '390.000đ',
+    priceNum: 390000,
+    desc: 'Bảo vệ da toàn diện với zinc oxide khoáng chất thuần chay. Không để lại vệt trắng.',
+    tags: ['SPF50', 'Khoáng chất', 'Không để lại vệt'],
+    ingredients: 'Zinc Oxide (20%), Niacinamide, Hyaluronic Acid, Aloe Vera, Chamomile Extract',
+    emoji: '☀️',
+    image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=400&fit=crop'
+  },
+  {
+    id: '8',
+    name: 'Dầu Dưỡng Tóc Argan Thuần Chay',
+    category: 'Chăm sóc tóc',
+    price: '350.000đ',
+    priceNum: 350000,
+    desc: 'Dưỡng bóng và phục hồi tóc hư tổn với dầu argan Morocco.',
+    tags: ['Phục hồi tóc', 'Dưỡng bóng', 'Không nhờn'],
+    ingredients: 'Argania Spinosa (Argan) Oil, Cocos Nucifera Oil, Vitamin E, Sunflower Oil',
+    emoji: '💆',
+    image: 'https://images.unsplash.com/photo-1608248597276-f3d32f698865?w=400&h=400&fit=crop'
+  }
+];
