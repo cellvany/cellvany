@@ -49,7 +49,7 @@ const CartPage = () => {
                 <div className="cart-summary-row"><span>Tạm tính</span><span>{formatPrice(totalPrice)}</span></div>
                 <div className="cart-summary-row"><span>Phí vận chuyển</span><span>{shipping === 0 ? 'Miễn phí' : formatPrice(shipping)}</span></div>
                 {totalPrice < 500000 && (
-                    <div style={{ fontSize: '.78rem', color: 'var(--green-bright)', padding: '8px 0' }}>
+                    <div style={{ fontSize: '1.25rem', color: 'var(--green-bright)', padding: '8px 0' }}>
                         Mua thêm {formatPrice(500000 - totalPrice)} để miễn phí vận chuyển!
                     </div>
                 )}
