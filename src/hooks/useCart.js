@@ -45,8 +45,13 @@ export function useCart() {
     });
   }, []);
 
+  const clear = useCallback(() => {
+    saveCart([]);
+    setCart([]);
+  }, []);
+
   const totalItems = cart.reduce((s, i) => s + i.qty, 0);
   const totalPrice = cart.reduce((s, i) => s + i.priceNum * i.qty, 0);
 
-  return { cart, add, updateQty, remove, totalItems, totalPrice };
+  return { cart, add, updateQty, remove, clear, totalItems, totalPrice };
 }

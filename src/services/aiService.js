@@ -1,61 +1,63 @@
-const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+const GEMINI_MODEL = 'gemini-2.0-flash';
 
-export async function analyzeSkin(base64Image) {
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-  if (!apiKey) throw new Error('Thiếu VITE_GEMINI_API_KEY trong .env');
-
-  const body = {
-    contents: [
-      {
-        parts: [
-          {
-            text: 'Bạn là chuyên gia da liễu. Phân tích ảnh da mặt ngắn gọn: (1) loại da, (2) 1-2 vấn đề nổi bật, (3) gợi �ích 2-3 sản phẩm trong danh sách: Serum Vitamin C, Kem Dưỡng Ẩm Hoa Hồng, Sữa Rửa Mặt Rau Má, Toner Trà Xanh, Mặt Nạ Đất Sét Nghệ, Tinh Chất Aloe Vera, Kem Chống Nắng Zinc SPF50, Dầu Dưỡng Argan. Trả lời tiếng Việt, dễ đọc.'
-          },
-          { inline_data: { mime_type: 'image/jpeg', data: base64Image } }
-        ]
-      }
-    ],
-    generationConfig: { temperature: 0.4, maxOutputTokens: 512 }
-  };
-
-  const res = await fetch(`${GEMINI_URL}?key=${apiKey}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
-
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`Gemini error ${res.status}: ${err}`);
-  }
-  const data = await res.json();
-  return data?.candidates?.[0]?.content?.parts?.[0]?.text ?? 'Không có kết quả phân tích.';
+function getGeminiApiKey() {
+  return import.meta.env.VITE_GEMINI_API_KEY || window.CONFIG?.GEMINI_API_KEY || window.API_KEY;
 }
 
-export function matchProductsToRecommendation(aiText, allProducts) {
-  const lower = aiText.toLowerCase();
-  const keywordMap = {
-    'vitamin': '1',
-    'dưỡng ẩm': '2',
-    'hoa hồng': '2',
-    'rau má': '3',
-    'làm sạch': '3',
-    'sữa rửa': '3',
-    'toner': '4',
-    'trà xanh': '4',
-    'mặt nạ': '5',
-    'nghệ': '5',
-    'aloe': '6',
-    'phục hồi': '6',
-    'chống nắng': '7',
-    'zinc': '7',
-    'dưỡng tóc': '8',
-    'argan': '8',
+function fallbackResult() {
+  return {
+    skinType: 'da hỗn hợp',
+    skinAnalysis: 'Làn da có xu hướng dầu ở vùng T và thiếu ẩm nhẹ ở hai bên má.',
+    recommendedIds: ['1', '4', '3'],
+    tip: 'Dùng toner dịu nhẹ, serum Vitamin C vào buổi sáng và sữa rửa mặt không sulfate.',
   };
-  const matchedIds = new Set();
-  for (const [kw, id] of Object.entries(keywordMap)) {
-    if (lower.includes(kw)) matchedIds.add(id);
-  }
-  if (matchedIds.size === 0) return allProducts.slice(0, 4);
-  return allProducts.filter((p) => matchedIds.has(p.id)).slice(0, 4);
+}
+
+export async function analyzeSkin(imageBase64, products) {
+  const apiKey = getGeminiApiKey();
+  if (!apiKey || apiKey === 'YOUR_API_KEY_HERE') return fallbackResult();
+
+  const productList = products
+    .map((product) => (
+      `ID:${product.id} | ${product.name} | ${product.category} | ${product.desc} | Tags:${(product.tags || []).join(',')} | Thành phần:${product.ingredients}`
+    ))
+    .join('\n');
+
+  const prompt = `Bạn là chuyên gia da liễu và tư vấn mỹ phẩm thuần chay CellVany.
+Phân tích ảnh khuôn mặt và trả về JSON hợp lệ, không markdown:
+{"skinType":"...","skinAnalysis":"...","recommendedIds":["id1","id2","id3"],"tip":"..."}
+
+Yêu cầu:
+1. Xác định loại da.
+2. Nhận xét ngắn tình trạng da trong 1-2 câu.
+3. Gợi ý tối đa 3 sản phẩm phù hợp nhất từ danh sách.
+
+DANH SÁCH SẢN PHẨM:
+${productList}`;
+
+  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{
+        parts: [
+          { inline_data: { mime_type: 'image/jpeg', data: imageBase64 } },
+          { text: prompt },
+        ],
+      }],
+      generationConfig: { temperature: 0.3, maxOutputTokens: 512 },
+    }),
+  });
+
+  if (!response.ok) throw new Error(`Gemini error ${response.status}`);
+
+  const data = await response.json();
+  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  const jsonText = text.replace(/```json|```/g, '').trim();
+
+  return JSON.parse(jsonText);
+}
+
+export function getMockAiResult() {
+  return fallbackResult();
 }
