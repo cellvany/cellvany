@@ -37,27 +37,48 @@ function getSheetConfig() {
   };
 }
 
-export async function loadProducts() {
+export async function loadProducts(forceRefresh = false) {
   const { sheetId, range, apiKey } = getSheetConfig();
 
+  // KIỂM TRA CACHE CHẶT CHẼ HƠN: Chỉ lấy nếu cache có chứa dữ liệu thật (độ dài > 0)
+  if (!forceRefresh) {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsedData = JSON.parse(saved);
+      if (parsedData && parsedData.length > 0) {
+        return parsedData; // Có sản phẩm thật thì mới trả về
+      }
+    }
+  }
+
+  // Gọi lên Google Sheets
   try {
-    if (!sheetId || !apiKey || sheetId === 'YOUR_GOOGLE_SHEET_ID_HERE') {
-      throw new Error('Using mock products');
+    if (!sheetId || !apiKey || apiKey.includes('AIzaSy...')) {
+      throw new Error('Thiếu cấu hình API Key hoặc Sheet ID');
     }
 
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
     const response = await fetch(url);
-    if (!response.ok) throw new Error('Sheet fetch failed');
+
+    if (!response.ok) throw new Error('Không thể tải file Google Sheets');
 
     const data = await response.json();
     const rows = data.values || [];
+
     const headers = (rows[0] || []).map((header) => header.toLowerCase().trim());
     const products = rows.slice(1).map((row, index) => normalizeProduct(row, headers, index));
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+    // Lưu cứng vào bộ nhớ trình duyệt
+    if (products.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+    }
+
+    console.log('✅ Đã tải thành công từ Google Sheets: ', products);
     return products;
-  } catch {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(MOCK_PRODUCTS));
+
+  } catch (error) {
+    console.error("❌ Lỗi Google Sheets:", error.message);
+    // Trả về dữ liệu Mock nếu rớt mạng hoặc cấu hình sai
     return MOCK_PRODUCTS;
   }
 }

@@ -18,7 +18,9 @@ function App() {
     const [products, setProducts] = useState([]);
     const [isScanOpen, setIsScanOpen] = useState(false);
     const [aiResult, setAiResult] = useState(null);
-
+    const [heroImgUrl, setHeroImgUrl] = useState(() => {
+        return localStorage.getItem('cellvany_hero_img') || '';
+    });
     useEffect(() => {
         // Start fading after the loading bar animation
         const fadeTimer = setTimeout(() => {
@@ -55,6 +57,7 @@ function App() {
             products={products}
             aiResult={aiResult}
             onOpenScan={openFaceScan}
+            heroImgUrl={heroImgUrl} // <--- Thêm dòng này
         />
     );
 
@@ -76,7 +79,7 @@ function App() {
                 <Route path="/products/:id" element={<ProductDetailPage products={products} />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
-                <Route path="/admin" element={<Admin />} />
+                <Route path="/admin" element={<Admin currentHeroImg={heroImgUrl} setHeroImgUrl={setHeroImgUrl} />} />
             </Routes>
             <FaceScan
                 isOpen={isScanOpen}

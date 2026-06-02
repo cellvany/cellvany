@@ -29,56 +29,56 @@ const ProductsPage = ({ products }) => {
 
     return (
         <main className="products-page">
-                <section className="products-hero">
-                    <div>
-                        <span className="section-label">CellVany Shop</span>
-                        <h1>Tất cả sản phẩm</h1>
-                        <p>Tìm công thức phù hợp theo nhu cầu da, danh mục hoặc thành phần bạn yêu thích.</p>
-                    </div>
-                    <div className="products-count">
-                        <strong>{filteredProducts.length}</strong>
-                        <span>sản phẩm</span>
-                    </div>
-                </section>
+            <section className="products-hero">
+                <div>
+                    <span className="section-label">CellVany Shop</span>
+                    <h1>Tất cả sản phẩm</h1>
+                    <p>Tìm công thức phù hợp theo nhu cầu da, danh mục hoặc thành phần bạn yêu thích.</p>
+                </div>
+                <div className="products-count">
+                    <strong>{filteredProducts.length}</strong>
+                    <span>sản phẩm</span>
+                </div>
+            </section>
 
-                <section className="products-toolbar" aria-label="Bộ lọc sản phẩm">
-                    <div className="search-field">
-                        <span>⌕</span>
-                        <input
-                            value={query}
-                            onChange={(event) => setQuery(event.target.value)}
-                            placeholder="Tìm serum, toner, rau má..."
-                        />
-                    </div>
-                    <div className="category-tabs">
-                        {categories.map((item) => (
-                            <button
-                                key={item}
-                                className={category === item ? 'active' : ''}
-                                onClick={() => setCategory(item)}
-                            >
-                                {item === 'all' ? 'Tất cả' : item}
-                            </button>
-                        ))}
-                    </div>
-                </section>
+            <section className="products-toolbar" aria-label="Bộ lọc sản phẩm">
+                <div className="search-field">
+                    <span>⌕</span>
+                    <input
+                        value={query}
+                        onChange={(event) => setQuery(event.target.value)}
+                        placeholder="Tìm serum, toner, rau má..."
+                    />
+                </div>
+                <div className="category-tabs">
+                    {categories.map((item) => (
+                        <button
+                            key={item}
+                            className={category === item ? 'active' : ''}
+                            onClick={() => setCategory(item)}
+                        >
+                            {item === 'all' ? 'Tất cả' : item}
+                        </button>
+                    ))}
+                </div>
+            </section>
 
-                <section className="products-results">
-                    <div className="products-grid">
-                        {!products.length && (
-                            <div className="products-loading">
-                                <div className="spinner"></div>
-                                Đang tải sản phẩm...
-                            </div>
-                        )}
-                        {products.length > 0 && filteredProducts.length === 0 && (
-                            <div className="products-loading">Không tìm thấy sản phẩm phù hợp.</div>
-                        )}
-                        {filteredProducts.map((product) => (
-                            <ProductCard key={product.id} product={product} />
-                        ))}
-                    </div>
-                </section>
+            <section className="products-results">
+                <div className="products-grid">
+                    {!products.length && (
+                        <div className="products-loading">
+                            {/* <div className="spinner"></div> */}
+                            Không có sản phẩm
+                        </div>
+                    )}
+                    {products.length > 0 && filteredProducts.length === 0 && (
+                        <div className="products-loading">Không tìm thấy sản phẩm phù hợp.</div>
+                    )}
+                    {filteredProducts.map((product) => (
+                        <ProductCard key={product.id} product={product} />
+                    ))}
+                </div>
+            </section>
         </main>
     );
 };
