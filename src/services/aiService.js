@@ -1,8 +1,4 @@
-const GEMINI_MODEL = 'gemini-2.0-flash';
-
-function getGeminiApiKey() {
-  return import.meta.env.VITE_GEMINI_API_KEY || window.CONFIG?.GEMINI_API_KEY || window.API_KEY;
-}
+const OPENROUTER_MODEL = 'nvidia/nemotron-nano-12b-v2-vl:free';
 
 function fallbackResult() {
   return {
@@ -14,48 +10,62 @@ function fallbackResult() {
 }
 
 export async function analyzeSkin(imageBase64, products) {
-  const apiKey = getGeminiApiKey();
-  if (!apiKey || apiKey === 'YOUR_API_KEY_HERE') return fallbackResult();
+  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
+  if (!apiKey) return fallbackResult();
 
   const productList = products
-    .map((product) => (
-      `ID:${product.id} | ${product.name} | ${product.category} | ${product.desc} | Tags:${(product.tags || []).join(',')} | Thành phần:${product.ingredients}`
-    ))
+    .map((p) => `ID:${p.id} | ${p.name} | ${p.category} | ${p.desc} | Tags:${(p.tags || []).join(',')} | Thành phần:${p.ingredients}`)
     .join('\n');
 
   const prompt = `Bạn là chuyên gia da liễu và tư vấn mỹ phẩm thuần chay CellVany.
-Phân tích ảnh khuôn mặt và trả về JSON hợp lệ, không markdown:
+Phân tích ảnh khuôn mặt và trả về JSON hợp lệ, không markdown, PHẢI dùng tiếng Việt:
 {"skinType":"...","skinAnalysis":"...","recommendedIds":["id1","id2","id3"],"tip":"..."}
 
 Yêu cầu:
-1. Xác định loại da.
-2. Nhận xét ngắn tình trạng da trong 1-2 câu.
-3. Gợi ý tối đa 3 sản phẩm phù hợp nhất từ danh sách.
+1. Xác định loại da (tiếng Việt, ví dụ: da dầu, da khô, da hỗn hợp, da thường, da nhạy cảm).
+2. Nhận xét tình trạng da trong 2-3 câu tiếng Việt, mô tả chi tiết.
+3. PHẢI gợi ý ĐÚNG 3 sản phẩm phù hợp nhất từ danh sách bên dưới, dùng đúng ID.
+4. Tip chăm sóc da chi tiết 2-3 câu tiếng Việt.
+5. Phải trả lời bằng tiếng việt
 
 DANH SÁCH SẢN PHẨM:
 ${productList}`;
 
-  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{
-        parts: [
-          { inline_data: { mime_type: 'image/jpeg', data: imageBase64 } },
-          { text: prompt },
-        ],
-      }],
-      generationConfig: { temperature: 0.3, maxOutputTokens: 512 },
-    }),
-  });
+  try {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: OPENROUTER_MODEL,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image_url', image_url: { url: `data:image/jpeg;base64,${imageBase64}` } },
+            { type: 'text', text: prompt },
+          ],
+        }],
+        temperature: 0.3,
+        max_tokens: 512,
+      }),
+    });
 
-  if (!response.ok) throw new Error(`Gemini error ${response.status}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-  const data = await response.json();
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-  const jsonText = text.replace(/```json|```/g, '').trim();
+    const data = await response.json();
+    console.log('res: ', data);
 
-  return JSON.parse(jsonText);
+    const text = data?.choices?.[0]?.message?.content;
+    if (!text) throw new Error('Empty content');
+
+    const jsonText = text.replace(/```json|```/g, '').trim();
+    return JSON.parse(jsonText);
+  } catch (err) {
+    console.error('analyzeSkin error:', err.message);
+    return fallbackResult();
+  }
 }
 
 export function getMockAiResult() {

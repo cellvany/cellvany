@@ -13,7 +13,9 @@ const AiReco = ({ products, result }) => {
     return (
         <section id="ai-reco-section" className="show">
             <h3>Gợi Ý Riêng Cho Bạn</h3>
-            <p>Dựa trên phân tích da {result.skinType} của bạn: {result.tip}</p>
+            <p className="ai-skin-type">Loại da của bạn: <strong>{result.skinType}</strong></p>
+            <p className="ai-skin-analysis">{result.skinAnalysis}</p>
+            <p className="ai-tip">💡 Gợi ý: {result.tip}</p>
             <div className="ai-reco-products">
                 {recommended.map((product) => (
                     <div key={product.id} className="product-card">
