@@ -12,15 +12,15 @@ const AiReco = ({ products, result }) => {
 
     return (
         <section id="ai-reco-section" className="show">
-            <h3>Personalized For You</h3>
-            <p>Based on your {result.skinType} skin analysis: {result.tip}</p>
+            <h3>Gợi Ý Riêng Cho Bạn</h3>
+            <p>Dựa trên phân tích da {result.skinType} của bạn: {result.tip}</p>
             <div className="ai-reco-products">
                 {recommended.map((product) => (
                     <div key={product.id} className="product-card">
                         <Link to={`/products/${product.id}`}>
                             <div className="product-img">
                                 <img src={product.image} alt={product.name} loading="lazy" />
-                                <span className="product-badge-vegan">Vegan</span>
+                                <span className="product-badge-vegan">Thuần chay</span>
                             </div>
                         </Link>
                         <div className="product-info">
@@ -30,7 +30,7 @@ const AiReco = ({ products, result }) => {
                             </Link>
                             <div className="product-footer">
                                 <span className="product-price">{product.price}</span>
-                                <button className="btn-add-cart" onClick={() => add(product)}>+ Add</button>
+                                <button className="btn-add-cart" onClick={() => add(product)}>+ Thêm</button>
                             </div>
                         </div>
                     </div>

@@ -47,12 +47,12 @@ const ProductDetail = ({ products }) => {
                         ))}
                     </div>
                     <div className="detail-actions">
-                        <button className="btn-add-cart-large" onClick={() => add(product)}>Add to Cart</button>
-                        <button className="btn-outline" onClick={() => add(product)}>Buy Now</button>
+                        <button className="btn-add-cart-large" onClick={() => add(product)}>Thêm vào giỏ</button>
+                        <button className="btn-outline" onClick={() => add(product)}>Mua ngay</button>
                     </div>
                     {product.ingredients && (
                         <div className="detail-ingredients">
-                            <h4>Main Ingredients</h4>
+                            <h4>Thành phần chính</h4>
                             <p>{product.ingredients}</p>
                         </div>
                     )}

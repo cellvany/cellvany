@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Footer = () => {
+    const navigate = useNavigate()
     return (
         <footer>
             <div className="footer-grid">
@@ -42,7 +43,13 @@ const Footer = () => {
             {/* Phần dưới cùng */}
             <div className="footer-bottom">
                 <span>© {new Date().getFullYear()} CellVany. All rights reserved.</span>
-                <span>Beauty in your essence</span>
+                <span
+                    onClick={() => navigate('/admin')}
+                    style={{ cursor: 'pointer', hover: { opacity: 0.8 } }}
+                    className="footer-admin-link"
+                >
+                    Admin
+                </span>
             </div>
         </footer>
     );

@@ -7,7 +7,7 @@ const LoadingScreen = ({ isFading }) => {
             <div className="loading-bar-wrap">
                 <div className="loading-bar"></div>
             </div>
-            <div className="loading-text">BEAUTY IN YOUR ESSENCE</div>
+            <div className="loading-text">VẺ ĐẸP TỪ BẢN THÂN</div>
         </div>
     );
 };

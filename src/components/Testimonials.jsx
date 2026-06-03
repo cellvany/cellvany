@@ -4,13 +4,13 @@ const Testimonials = () => {
     return (
         <section id="testimonials">
             <div className="section-header">
-                <span className="section-label">Testimonials</span>
-                <h2>What Our Community Says</h2>
+                <span className="section-label">Cảm Nhận Khách Hàng</span>
+                <h2>Khách Hàng Nói Gì Về CellVany</h2>
             </div>
             <div className="testimonials-grid">
                 <div className="testimonial-card">
                     <div className="stars">★★★★★</div>
-                    <p className="testimonial-text">"My skin has never felt so alive and healthy. The Vitamin C serum is pure magic! I'm a customer for life."</p>
+                    <p className="testimonial-text">"Làn da tôi chưa bao giờ khỏe và rạng rỡ đến thế. Serum Vitamin C thực sự là thần dược! Tôi sẽ mãi là khách hàng trung thành của CellVany."</p>
                     <div className="testimonial-author">
                         <div className="author-avatar">🌸</div>
                         <div>
@@ -21,7 +21,7 @@ const Testimonials = () => {
                 </div>
                 <div className="testimonial-card">
                     <div className="stars">★★★★★</div>
-                    <p className="testimonial-text">"I was skeptical about vegan skincare, but Cellvany changed my mind. The results are visible and my sensitive skin is finally calm."</p>
+                    <p className="testimonial-text">"Trước đây tôi còn hoài nghi về mỹ phẩm thuần chay, nhưng CellVany đã thay đổi suy nghĩ của tôi. Kết quả rõ ràng và làn da nhạy cảm của tôi cuối cùng cũng được dịu nhẹ."</p>
                     <div className="testimonial-author">
                         <div className="author-avatar">✨</div>
                         <div>
@@ -32,7 +32,7 @@ const Testimonials = () => {
                 </div>
                 <div className="testimonial-card">
                     <div className="stars">★★★★★</div>
-                    <p className="testimonial-text">"The AI analysis was so accurate! It recommended the perfect products for my combination skin. Highly recommend!"</p>
+                    <p className="testimonial-text">"Phân tích AI thật sự chính xác! Nó đã gợi ý những sản phẩm hoàn hảo cho làn da hỗn hợp của tôi. Tôi đánh giá rất cao!"</p>
                     <div className="testimonial-author">
                         <div className="author-avatar">🌿</div>
                         <div>
