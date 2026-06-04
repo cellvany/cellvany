@@ -41,15 +41,15 @@ export async function loadProducts(forceRefresh = false) {
   const { sheetId, range, apiKey } = getSheetConfig();
 
   // KIỂM TRA CACHE CHẶT CHẼ HƠN: Chỉ lấy nếu cache có chứa dữ liệu thật (độ dài > 0)
-  if (!forceRefresh) {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      const parsedData = JSON.parse(saved);
-      if (parsedData && parsedData.length > 0) {
-        return parsedData; // Có sản phẩm thật thì mới trả về
-      }
-    }
-  }
+  // if (!forceRefresh) {
+  //   const saved = localStorage.getItem(STORAGE_KEY);
+  //   if (saved) {
+  //     const parsedData = JSON.parse(saved);
+  //     if (parsedData && parsedData.length > 0) {
+  //       return parsedData; // Có sản phẩm thật thì mới trả về
+  //     }
+  //   }
+  // }
 
   // Gọi lên Google Sheets
   try {
@@ -61,6 +61,7 @@ export async function loadProducts(forceRefresh = false) {
     const response = await fetch(url);
 
     if (!response.ok) throw new Error('Không thể tải file Google Sheets');
+    console.log('res product: ', response);
 
     const data = await response.json();
     const rows = data.values || [];

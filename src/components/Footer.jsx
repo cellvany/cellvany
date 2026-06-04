@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const Footer = () => {
     const navigate = useNavigate()
     return (
-        <footer>
+        <footer id="footer" thêm id="footer">
             <div className="footer-grid">
                 {/* Cột 1: Brand (Chiếm 2fr) */}
                 <div className="footer-brand">

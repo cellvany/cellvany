@@ -1,28 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useCartContext } from '../context/CartContext';
 
 const Navbar = ({ onOpenScan }) => {
     const { totalItems } = useCartContext();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 10);
-        };
+        const handleScroll = () => setIsScrolled(window.scrollY > 10);
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    const scrollToSection = (sectionId) => {
+        setIsMenuOpen(false);
+        const doScroll = () => {
+            const el = document.getElementById(sectionId);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        if (location.pathname !== '/home' && location.pathname !== '/') {
+            navigate('/home');
+            setTimeout(doScroll, 300); // chờ trang load xong rồi scroll
+        } else {
+            doScroll();
+        }
+    };
+
     return (
         <nav className={isScrolled ? 'scrolled' : ''}>
-            <Link to="/home" className="nav-logo">Cell<span>vany</span></Link>
+            <Link to="/home" className="nav-logo" onClick={() => scrollToSection('hero')}>
+                Cell<span>vany</span>
+            </Link>
             <div className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
-                <Link to="/home#hero" onClick={() => setIsMenuOpen(false)}>Trang chủ</Link>
+                <a onClick={() => scrollToSection('hero')} style={{ cursor: 'pointer' }}>Trang chủ</a>
                 <Link to="/products" onClick={() => setIsMenuOpen(false)}>Sản phẩm</Link>
-                <Link to="/home#values" onClick={() => setIsMenuOpen(false)}>Về chúng tôi</Link>
-                <Link to="/home#footer" onClick={() => setIsMenuOpen(false)}>Liên hệ</Link>
+                <a onClick={() => scrollToSection('about')} style={{ cursor: 'pointer' }}>Về chúng tôi</a>
+                <a onClick={() => scrollToSection('footer')} style={{ cursor: 'pointer' }}>Liên hệ</a>
             </div>
             <div className="nav-actions">
                 <button className="scan-btn" aria-label="Phân tích da bằng AI" onClick={onOpenScan}>
@@ -42,10 +59,8 @@ const Navbar = ({ onOpenScan }) => {
                     </svg>
                     {totalItems > 0 && <span className="cart-count show">{totalItems}</span>}
                 </Link>
-                <button className="hamburger" aria-label="Toggle menu" onClick={() => setIsMenuOpen((open) => !open)}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <button className="hamburger" aria-label="Toggle menu" onClick={() => setIsMenuOpen(o => !o)}>
+                    <span></span><span></span><span></span>
                 </button>
             </div>
         </nav>
