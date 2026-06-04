@@ -804,15 +804,18 @@ section {
   align-items: center;
   justify-content: center;
   transition: var(--transition);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
+
 .carousel-btn:hover {
   background: var(--green-mist);
   border-color: var(--green-deep);
 }
+
 .carousel-btn-left {
   grid-column: 1;
 }
+
 .carousel-btn-right {
   grid-column: 3;
 }
@@ -2638,4 +2641,28 @@ nav.scrolled {
 #testimonials,
 footer {
   scroll-margin-top: 100px;
+}
+
+/* ABOUT — responsive */
+@media (max-width: 768px) {
+  .about-story {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 48px 5%;
+  }
+
+  .about-story-text h2 {
+    font-size: 1.5rem;
+  }
+
+  .about-stats {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 40px 5%;
+  }
+
+  .about-img-block {
+    aspect-ratio: 1/1;
+    font-size: 4rem;
+  }
 }
