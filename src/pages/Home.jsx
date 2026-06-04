@@ -9,25 +9,25 @@ import Reveal from '../components/Reveal';
 const Home = ({ products, aiResult, onOpenScan, heroImgUrl }) => {
   return (
     <>
-      <Reveal>
-        <Hero onOpenScan={onOpenScan} heroImgUrl={heroImgUrl} />
-      </Reveal>
+      {/* <Reveal> */}
+      <Hero onOpenScan={onOpenScan} heroImgUrl={heroImgUrl} />
+      {/* </Reveal> */}
 
-      <Reveal>
-        <AiReco products={products} result={aiResult} />
-      </Reveal>
+      {/* <Reveal> */}
+      <AiReco products={products} result={aiResult} />
+      {/* </Reveal> */}
 
-      <Reveal>
-        <Products products={products} />
-      </Reveal>
+      {/* <Reveal> */}
+      <Products products={products} />
+      {/* </Reveal> */}
 
-      <Reveal>
-        <About />
-      </Reveal>
+      {/* <Reveal> */}
+      <About />
+      {/* </Reveal> */}
 
-      <Reveal>
-        <Testimonials />
-      </Reveal>
+      {/* <Reveal> */}
+      <Testimonials />
+      {/* </Reveal> */}
     </>
   );
 };
